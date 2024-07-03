@@ -9,6 +9,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 
 
 @Entity
@@ -55,7 +56,7 @@ public class Pizza {
 		this.description = description;
 	}
 
-	@NotBlank(message = "Devi inserire il prezzo della pizza.")
+	@NotNull(message = "Il prezzo non può essere nullo")
 	@Column(name = "price", nullable = false)
 	private double price;
 
@@ -68,7 +69,7 @@ public class Pizza {
 		this.price = price;
 	}
 	
-	
+	@NotBlank(message = "devi inserire una foto(Link)")
 	@Column(name = "photo")
 	private String photo;
 

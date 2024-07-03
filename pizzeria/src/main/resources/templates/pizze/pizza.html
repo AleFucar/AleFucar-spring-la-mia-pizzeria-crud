@@ -6,9 +6,10 @@
 	<title>Pizza</title>
 </head>
 
-<body>
+<body class="bg-light text-dark">
 	<div class="container text-center">
 	<h1 class="mt-5" th:text="${pizza.name}"></h1>
+	<img class="rounded border border-dark  border-top-0 border-right-0" th:src="${pizza.photo}" alt="Pizza" height="400px" weight="400px">
 	<h4 class="mt-2" th:text="${pizza.description}"></h4>
 	</div>
 </body>
