@@ -1,6 +1,6 @@
 package it.fucarino.pizzeria.model;
 
-
+import org.hibernate.annotations.Type;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -8,6 +8,8 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.NotBlank;
+
 
 @Entity
 @Table(name = "pizza")
@@ -27,6 +29,7 @@ public class Pizza {
 
 
 	@Column(name = "name", nullable = false)
+	@NotBlank(message = "Devi inserire il nome della pizza.")
 	private String name;
 	
 	
@@ -40,6 +43,7 @@ public class Pizza {
 
 
 	@Column(name = "description")
+	@NotBlank(message = "Devi inserire una descrizione")
 	private String description;
 	
 	
@@ -51,7 +55,7 @@ public class Pizza {
 		this.description = description;
 	}
 
-
+	@NotBlank(message = "Devi inserire il prezzo della pizza.")
 	@Column(name = "price", nullable = false)
 	private double price;
 

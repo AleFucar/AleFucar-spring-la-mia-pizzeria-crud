@@ -1,17 +1,20 @@
 package it.fucarino.pizzeria.controller;
 
 
-import java.util.ArrayList;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import it.fucarino.pizzeria.model.Pizza;
 import it.fucarino.pizzeria.repository.PizzaRepository;
+import jakarta.validation.Valid;
 
 @Controller
 @RequestMapping
@@ -39,5 +42,25 @@ public class PizzaController {
 		model.addAttribute("pizza", repository.getReferenceById(pizzaId));
 		
 		return"/pizze/pizza";
+	}
+	
+	
+	@GetMapping("/create")
+	public String create(Model model) {
+		
+		model.addAttribute("pizza", new Pizza());
+		
+		return"/pizze/create";
+	}
+	
+	@PostMapping("/create")
+	public String store(@Valid @ModelAttribute("pizza") Pizza formPizza, BindingResult bindingResult, Model model) {
+			if (bindingResult.hasErrors()) {
+				return"/pizze/create";
+			}
+			
+			repository.save(formPizza);
+			
+			return"redirect:/pizze";
 	}
 }
