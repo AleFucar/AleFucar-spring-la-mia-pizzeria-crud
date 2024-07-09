@@ -6,13 +6,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+
 
 import it.fucarino.pizzeria.model.Pizza;
 import it.fucarino.pizzeria.repository.PizzaRepository;
@@ -30,10 +29,7 @@ public class PizzaController {
 	public String index(Model model) {
 		
 	    List<Pizza> pizza = repository.findAll();
-		
 		model.addAttribute("list", pizza);
-		
-	
 		return"/pizze/index";
 	}
 	
@@ -66,11 +62,31 @@ public class PizzaController {
 			return"redirect:/pizze";
 	}
 	
-	@GetMapping("/delete")
-	public String deletePizza(@RequestParam Integer id) {
+	@PostMapping("/delete/{id}")
+	public String deletePizza(@PathVariable("id") Integer id) {
 		
 		repository.deleteById(id);
 		
 		return"redirect:/pizze";
 	}
+	
+	
+	@GetMapping("/pizze/update/{id}")
+	public String updatePizza(@PathVariable("id") Integer id, Model model) {
+		model.addAttribute("pizza", repository.getReferenceById(id));
+		return"/pizze/update";
+	}
+	
+	
+	@PostMapping("/pizze/update/{id}")
+	public String update(@Valid @ModelAttribute("pizza") Pizza formPizza, BindingResult bindingResult, Model model) {
+		
+		if (bindingResult.hasErrors()) {
+			return"/pizze/update";
+		}
+		
+		repository.save(formPizza);
+		
+		return"redirect:/pizze";
+}
 }
